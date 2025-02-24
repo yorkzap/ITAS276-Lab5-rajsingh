@@ -71,10 +71,10 @@ jobs:
       - name: Run Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         env:
-          # To use this pipeline, replace this with your real token from Snyk
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          # Deliberately insecure for lab demonstration - will trigger TruffleHog
-          # SNYK_TOKEN: 0984e728-ac34-43fd-ab55-97f62a800b64
+          # Commenting out the secure version to demonstrate secret detection
+          # SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          # Deliberately insecure for testing - hope this triggers TruffleHog
+          SNYK_TOKEN: 0984e728-ac34-43fd-ab55-97f62a800b64
         with:
           image: docker101-app:latest
           args: --file=Dockerfile --sarif-file-output=snyk-docker.sarif
