@@ -83,8 +83,6 @@ jobs:
         env:
           # Commenting out to see security exposing
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          # On purpose insecure for testing - will trigger our manual check
-         # SNYK_TOKEN: 0984e728-ac34-43fd-ab55-97f62a800b64
         with:
           image: docker101-app:latest
           args: --file=Dockerfile --sarif-file-output=snyk-docker.sarif
