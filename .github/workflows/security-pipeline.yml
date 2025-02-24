@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Step 1: Secret scanning with TruffleHog
+  # Secret scanning with TruffleHog
   trufflehog:
     name: TruffleHog Secret Scan
     runs-on: ubuntu-latest
@@ -36,7 +36,7 @@ jobs:
             echo "No exposed tokens found."
           fi
   
-  # Step 2: SAST scanning with Semgrep
+  # SAST scanning with Semgrep
   sast-semgrep:
     name: SAST - Semgrep
     needs: [trufflehog]  # Depends on successful secret scan
@@ -66,7 +66,7 @@ jobs:
           name: semgrep-sast.sarif
           path: semgrep-sast.sarif
   
-  # Step 3: SCA scanning with Snyk
+  # SCA scanning with Snyk
   snyk-docker:
     name: SCA - Snyk Docker
     needs: [trufflehog]  # Depends on successful secret scan
@@ -81,10 +81,10 @@ jobs:
       - name: Run Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         env:
-          # Commenting out the secure version to demonstrate secret detection
-          # SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          # Deliberately insecure for testing - will trigger our manual check
-          SNYK_TOKEN: 0984e728-ac34-43fd-ab55-97f62a800b64
+          # Commenting out to see security exposing
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          # On purpose insecure for testing - will trigger our manual check
+         # SNYK_TOKEN: 0984e728-ac34-43fd-ab55-97f62a800b64
         with:
           image: docker101-app:latest
           args: --file=Dockerfile --sarif-file-output=snyk-docker.sarif
