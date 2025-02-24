@@ -54,7 +54,7 @@ jobs:
           --config="p/default"
       
       - name: Upload SARIF report
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: semgrep-sast.sarif
           category: semgrep
@@ -84,17 +84,17 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: docker101-app:latest
-          args: --file=Dockerfile --sarif-file-output=snyk-docker.sarif
+          args: --file=Dockerfile --sarif
         continue-on-error: true
       
       - name: Upload SARIF report
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: snyk-docker.sarif
+          sarif_file: snyk.sarif
           category: snyk-docker
       
       - name: Save report as artifact
         uses: actions/upload-artifact@v4
         with:
           name: snyk-docker.sarif
-          path: snyk-docker.sarif
+          path: snyk.sarif
